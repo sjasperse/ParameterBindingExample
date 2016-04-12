@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using ParameterBindingExample.ParameterBindings;
 
 namespace ParameterBindingExample
 {
@@ -10,6 +11,11 @@ namespace ParameterBindingExample
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.ParameterBindingRules.Add(
+                descriptor => 
+                    RequestUriParameterBinding.AppliesTo(descriptor) 
+                    ? new RequestUriParameterBinding(descriptor) 
+                    : null);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

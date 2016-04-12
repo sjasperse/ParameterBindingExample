@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Web;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
@@ -15,12 +17,12 @@ namespace ParameterBindingExample.Controllers
         [Test]
         public void ExampleController_Get_ReturnsJsonWithRequestUri()
         {
-            var requestUri = "http://somethingsomething/api/example";
+            var requestUri = new Uri("http://somethingsomething/api/example");
 
             var controller = new ExampleController();
-            controller.Request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, requestUri);
+            controller.Request = (new Mock<HttpRequestMessage>()).Object;
 
-            var result = controller.Get();
+            var result = controller.Get(requestUri);
             var json = result
                                 .ExecuteAsync(new CancellationToken()).Result
                                 .Content.ReadAsStringAsync().Result;

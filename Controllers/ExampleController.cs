@@ -9,9 +9,9 @@ namespace ParameterBindingExample.Controllers
 {
     public class ExampleController : ApiController
     {
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(Uri requestUri)
         {
-            return this.Json(new { uri = this.Request.RequestUri });
+            return this.Json(new { uri = requestUri });
         }
     }
 }
